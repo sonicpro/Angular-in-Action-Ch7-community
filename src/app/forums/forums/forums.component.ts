@@ -8,7 +8,7 @@ import { Forum } from '../services/data';
   styleUrls: ['./forums.component.css']
 })
 export class ForumsComponent implements OnInit {
-  forums: Forum[];
+  public forums: Forum[];
 
   constructor(private forumsService: ForumsService) {}
 

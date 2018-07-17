@@ -9,9 +9,15 @@ import { Thread } from '../services/data';
   styleUrls: ['./threads.component.css']
 })
 export class ThreadsComponent implements OnInit {
-  threads: Thread[];
+  public threads: Thread[];
 
-  constructor() { }
+  // ForumsService contains all the data access methods, so it is need to be injected to forum.component, threads.compontent, etc.
+  constructor(private route: ActivatedRoute,
+    private forumsService: ForumsService) { }
 
-  ngOnInit() {}
+    // Initialize threads field according to the parent route parameters.
+  ngOnInit() {
+    this.route.params.subscribe((params: Params) =>
+      this.threads = this.forumsService.forum(params["forum_alias"]).threads);
+  }
 }
