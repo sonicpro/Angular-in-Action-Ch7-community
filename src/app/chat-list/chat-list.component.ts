@@ -8,14 +8,17 @@ import { ForumsService } from '../forums/services/forums.service';
   styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnInit {
-  users: any[];
+  users: string[];
   talkTo: string;
 
-  constructor(private forumsService: ForumsService) { }
+  constructor(private forumsService: ForumsService,
+    private router: Router) { }
 
   ngOnInit() {
     this.users = this.forumsService.users;
   }
 
-  close() {}
+  close() {
+    this.router.navigate([{ outlets: { chat: null }}]);
+  }
 }

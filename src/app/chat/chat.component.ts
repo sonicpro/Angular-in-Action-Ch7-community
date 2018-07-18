@@ -10,22 +10,33 @@ import { UserService } from '../services/user.service';
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
   user: string;
-  guest: string;
+  callee: string;
   messages: any[];
   message: string = '';
   @ViewChild('scrollBox') private scrollBox: ElementRef;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router, // used to close the chat and navigate to the parent route by nullifying the secondary route.
     private chatBotService: ChatBotService,
     private userService: UserService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe((params: Params) =>
+    {
+      this.messages = [];
+      this.user = this.userService.getUser(); // Logged in / guest user.
+      this.callee = params["username"] // user to talk with. Set to routerLink in chat-list.component.html.
+    })
+  }
 
   ngAfterViewChecked() {
     this.scrollToBottom();
   }
 
-  close() {}
+  close() {
+    this.router.navigate([{ outlets: { chat: null }}]); // We could use the router link in the template as well.
+  }
 
   onKeyUp(event) {
     if (event.keyCode == 13) {
@@ -58,7 +69,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   private reply() {
     setTimeout(() => {
-      this.addMessage(this.guest, this.chatBotService.respond(), 'right');
+      this.addMessage(this.callee, this.chatBotService.respond(), 'right');
     }, 2500);
   }
 

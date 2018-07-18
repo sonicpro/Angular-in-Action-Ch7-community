@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Router } from "@angular/router"
 
 let username = localStorage.getItem('username') || '';
 let guest = (username) ? false : true;
 
+// Also this service closes "chat" secondary routes on logout.
 @Injectable()
 export class UserService {
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   isGuest() {
     return guest;
@@ -26,5 +28,7 @@ export class UserService {
     username = '';
     guest = true;
     localStorage.setItem('username', '');
+    // The same trick as in the chat / chat-list.component.ts close() methods.
+    this.router.navigate([{ outlets: { chat: null }}]);
   }
 }
