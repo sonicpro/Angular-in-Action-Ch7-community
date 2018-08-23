@@ -19,7 +19,7 @@ export class ForumComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) =>
     {
-      this.forum = this.forumsService.forum(params["forum_alias"]);
+      this.forum = this.forumsService.forum(params["forum_alias"]); // forum_alias is added to the route through routerLink rendered in forums.component.html
       if (!this.forum) {
         this.router.navigate(["/not-found"]);
       }
